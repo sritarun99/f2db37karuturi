@@ -1,10 +1,10 @@
 block content
   h1= title
-  - let results = [{State1: "Andhra", State2: "Telangana", State3:  "Delhi"},{State1:"Karnataka", State2: "Tamilnadu", State3:"Goa"},{State1:"Haryana" , State2 :"Assam", State3 :"Sikkim"}]
+  - var results = results ;
   div(class="container-fluid mt-3")
   div(class="row")
     each temp,index in results
-        div(class="col-sm-2" onclick=`buy(${index})`)  #{temp.State1} -  #{temp.State2} - #{temp.State3}
+        div(class="col-sm-2" onclick=`buy(${index})`)  #{temp.State1} -  #{temp.Region} - #{temp.State2}
   br
   div(class="container-fluid")
     div(class="row")
