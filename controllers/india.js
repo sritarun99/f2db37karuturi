@@ -1,61 +1,93 @@
-var India = require('../models/india'); 
- 
+const india = require('../models/india');
+var India = require('../models/india');
+
 // List of all Costumes 
-exports.india_list = async function(req, res) 
-{ 
-    try{ 
-        theIndia = await India.find(); 
-        res.send(theIndia); 
-    } 
-    catch(err){ 
-        res.status(500); 
-        res.send(`{"error": ${err}}`); 
-    }    
-}; 
- 
+exports.india_list = async function (req, res) {
+    try {
+        theIndia = await India.find();
+        res.send(theIndia);
+    }
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};
+
 // for a specific Costume. 
-exports.india_detail = function(req, res) { 
-    res.send('NOT IMPLEMENTED: Indiadetail: ' + req.params.id); 
-}; 
- 
+exports.india_detail = async function (req, res) {
+    console.log("detail" + req.params.id)
+    try {
+        result = await India.findById(req.params.id)
+        res.send(result)
+    } catch (error) {
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
+    }
+};
+
+
 // Handle Costume create on POST. 
-exports.india_create_post = async function(req, res) { 
-    console.log(req.body) 
-    let document = new India(); 
+exports.india_create_post = async function (req, res) {
+    console.log(req.body)
+    let document = new India();
     // We are looking for a body, since POST does not have query parameters. 
     // Even though bodies can be in many different formats, we will be picky 
     // and require that it be a json object 
-    // {"costume_type":"goat", "cost":12, "size":"large"} 
-    document.State1 = req.body.State1; 
-    document.Region = req.body.Region; 
-    document.State2 = req.body.State2; 
-    try{ 
-        let result = await document.save(); 
-        res.send(result); 
-    } 
-    catch(err){ 
-        res.status(500); 
-        res.send(`{"error": ${err}}`); 
-    }   
+    // {"State1":"Bihar", "Region":4, "State2":"Assam"} 
+    document.State1 = req.body.State1;
+    document.Region = req.body.Region;
+    document.State2 = req.body.State2;
+    try {
+        let result = await document.save();
+        res.send(result);
+    }
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
 }
 // Handle Costume delete form on DELETE. 
-exports.india_delete = function(req, res) { 
-    res.send('NOT IMPLEMENTED: India delete DELETE ' + req.params.id); 
+exports.india_delete = async function(req, res) { 
+    console.log("delete "  + req.params.id) 
+    try { 
+        result = await india.findByIdAndDelete( req.params.id) 
+        console.log("Removed " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": Error deleting ${err}}`); 
+    } 
 }; 
- 
+
 // Handle Costume update form on PUT. 
-exports.india_update_put = function(req, res) { 
-    res.send('NOT IMPLEMENTED: India update PUT' + req.params.id); 
+exports.india_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await India.findById(req.params.id)
+        // Do updates of properties 
+        if (req.body.State1)
+            toUpdate.State1 = req.body.State1;
+        if (req.body.Region) toUpdate.Region = req.body.Region;
+        if (req.body.State2) toUpdate.State2 = req.body.State2;
+        let result = await toUpdate.save();
+        console.log("Success " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`);
+    }
 };
 // VIEWS 
 // Handle a show all view 
-exports.india_view_all_Page = async function(req, res) { 
-    try{ 
-        theIndia = await India.find(); 
-        res.render('india', { title: 'India Search Results', results: theIndia }); 
-    } 
-    catch(err){ 
-        res.status(500); 
-        res.send(`{"error": ${err}}`); 
-    }   
+exports.india_view_all_Page = async function (req, res) {
+    try {
+        theIndia = await India.find();
+        res.render('india', { title: 'India Search Results', results: theIndia });
+    }
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
 }; 
