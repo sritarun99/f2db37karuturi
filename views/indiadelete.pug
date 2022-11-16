@@ -1,0 +1,53 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  if (toShow == null) 
+    h2 No instance to delete 
+  else 
+    - let indiaid = toShow._id 
+    - let State1 = toShow.State1 
+    - let Region = toShow.Region 
+    - let State2 = toShow.State2 
+    - let actionid = "/resource/india/" + indiaid 
+    script let actionid = "#{actionid}" 
+    div 
+      div.row 
+        div(class='indiaAttr mr-3') India  ID is: 
+        div #{indiaid} 
+      div.row 
+        div(class='indiaAttr mr-3') India State1 is: 
+        div #{State1} 
+      div.row 
+        div(class='indiaAttr mr-3') India Region is: 
+        div #{Region} 
+      div.row 
+        div(class='indiaAttr mr-3') India State2 is: 
+        div #{State2} 
+ 
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete 
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel 
+ 
+  script. 
+    function cancel() { 
+      // Go back to the home page for the costume collection 
+      window.location.href='/india' 
+    } 
+  script. 
+    function deleteOnid() { 
+      console.log("starting delete") 
+      // delete first 
+      fetch(actionid, { 
+        method: 'DELETE'      // Don't need a body for the delete 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Delete succeded") 
+        window.location.href='/india' 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Delete failed " + error ) 
+      }); 
+    } 

@@ -1,0 +1,25 @@
+extends layout 
+ 
+block content 
+  h1= title 
+  if (toShow == null)
+    h2 No instance to display 
+  else   
+ 
+  - let indiaid = toShow._id 
+  - let State1 = toShow.State1 
+  - let Region = toShow.Region 
+  - let State2 = toShow.State2 
+  div 
+    div.row 
+      div(class='indiaAttr mr-3') India  ID is: 
+      div #{indiaid} 
+    div.row 
+      div(class='indiaAttr mr-3') State1 Type is: 
+      div #{State1} 
+    div.row 
+      div(class='costumeAttr mr-3') Region  Size is: 
+      div #{Region} 
+    div.row 
+      div(class='costumeAttr mr-3') State2  Cost is: 
+      div #{State2} 

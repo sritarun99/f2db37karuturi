@@ -1,0 +1,34 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  form(id='IndiaForm', action="/resource/india", method="POST") 
+    div.form-group 
+        label.indiaAttr(for='State1') India  State1 
+        input#State1(type='text', name='State1') 
+    div.form-group 
+        label.indiaAttr(for='Region') India Region 
+        input#Region(type='number', name='Region') 
+    div.form-group 
+        label.indiaAttr(for='State2') India State2  
+        input#State2(type='text', name='State2') 
+    input(class="btn btn-info",type="submit") 
+ 
+  script. 
+    document.forms['IndiaForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'POST', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Save succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Save failed " + error ) 
+      }); 
+    });
