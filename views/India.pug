@@ -2,9 +2,11 @@ block content
   h1= title
   - var results = results ;
   div(class="container-fluid mt-3")
-  div(class="row")
+  div(class="row m-1")
     each temp,index in results
-        div(class="col-sm-2" onclick=`buy(${index})`)  #{temp.State1} -  #{temp.Region} - #{temp.State2}
+        - let destination = `dispatch(\"/india/update?id=${temp._id}\")` 
+        div(class="col-sm-2", class="m-1")  #{temp.State1} -  #{temp.Region} - #{temp.State2}
+          button.btn( class="btn-primary ml-1", onclick= destination) Update
   br
   div(class="container-fluid")
     div(class="row")
@@ -15,3 +17,6 @@ block content
     function buy(indexNum) {
       alert(`You purchased item ${indexNum}`);
     }
+    function dispatch(path){ 
+      window.location.href=path 
+    } 

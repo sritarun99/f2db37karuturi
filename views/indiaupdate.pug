@@ -2,42 +2,43 @@ extends layout
  
 block content 
   h1= title 
+  if (toShow == null)
+    h2 No instance to Update 
+  else 
+    - let indiaid = toShow._id 
+    - let State1 = toShow.State1 
+    - let Region = toShow.Region 
+    - let State2 = toShow.State2 
+      div.row(class='mb-2') 
+        div.mr-1 ID is 
+        div #{indiaid} 
+    - let actionid = "/resource/india/" + indiaid 
+    form(id='IndiaForm', action= actionid, method="PUT") 
+        div.form-group 
+            label.indiaAttr(for='State1') India state1  
+            input#State1(type='text', name='State1', value= State1 ) 
+        div.form-group 
+            label.indiaAttr(for='Region') India Region
+            input#Region(type='number', name='Region', value= Region ) 
+        div.form-group 
+            label.indiaAttr(for='State2') India State2
+            input#State2(type='text', name='State2', value= State2 ) 
+        input(type="submit") 
  
-  - let indiaid = toShow._id 
-  - let State1 = toShow.State1 
-  - let Region = toShow.Region 
-  - let State2 = toShow.State2 
-   
-  div.row(class='mb-2') 
-    div.mr-1 ID is 
-    div #{indiaid} 
-  - let actionid = "/resource/india/" + indiaid 
-  form(id='IndiaForm', action= actionid, method="PUT") 
-    div.form-group 
-        label.indiaAttr(for='State1') India state1  
-        input#State1(type='text', name='State1', value= State1 ) 
-    div.form-group 
-        label.indiaAttr(for='Region') India Region
-        input#Region(type='number', name='Region', value= Region ) 
-    div.form-group 
-        label.indiaAttr(for='State2') India State2
-        input#State2(type='text', name='State2', value= State2 ) 
-    input(type="submit") 
- 
-  script. 
-    document.forms['IndiaForm'].addEventListener('submit', (event) => { 
-      event.preventDefault(); 
-      // TODO do something here to show user that form is being submitted 
-      fetch(event.target.action, { 
-        method: 'PUT', 
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
-      }).then((resp) => { 
-        return resp.json(); // or resp.text() or whatever the server sends 
-      }).then((body) => { 
-        alert("Update succeded") 
-        // TODO handle body 
-      }).catch((error) => { 
-        // TODO handle error 
-        alert("Update failed " + error ) 
-      }); 
-    }); 
+    script. 
+        document.forms['IndiaForm'].addEventListener('submit', (event) => { 
+        event.preventDefault(); 
+        // TODO do something here to show user that form is being submitted 
+        fetch(event.target.action, { 
+            method: 'PUT', 
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+        }).then((resp) => { 
+            return resp.json(); // or resp.text() or whatever the server sends 
+        }).then((body) => { 
+            alert("Update succeded") 
+            // TODO handle body 
+        }).catch((error) => { 
+            // TODO handle error 
+            alert("Update failed " + error ) 
+        }); 
+        }); 
