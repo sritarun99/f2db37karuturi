@@ -1,16 +1,12 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}. I'm Tarun Karuturi
-  button(type="button", class="btn btn-secondary", onclick = "doBump()") Press Me
-  #bump 
-    p Bump the count. 
-    script.
-      let count = 0
-      let bump = 1
-      function doBump(){
-        count += bump 
-        bump++
-        document.getElementById("bump").innerHTML='Count '+count + "with bump "+ bump
-      }
+extends layout 
+ 
+block content 
+  if (!user) 
+    a(href="/login") Login 
+    br 
+    a(href="/register") Register 
+  if (user) 
+    p You are currently logged in as #{user.username} 
+    a(href="/india") Take me to costumes 
+    br 
+    a(href="/logout") Logout 

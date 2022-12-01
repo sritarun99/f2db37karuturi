@@ -1,12 +1,17 @@
+extends layout
+
 block content
   h1= title
   - var results = results ;
   div(class="container-fluid mt-3")
   div(class="row m-1")
-    each temp,index in results
-        - let destination = `dispatch(\"/india/update?id=${temp._id}\")` 
-        div(class="col-sm-2", class="m-1")  #{temp.State1} -  #{temp.Region} - #{temp.State2}
-          button.btn( class="btn-primary ml-1", onclick= destination) Update
+    each item in results
+      - let destination = `dispatch(\"/india/update?id=${item._id}\")`
+      div(class="col-sm-2", class="m-1") State1:#{item.State1},Region:#{item.Region},State2:#{item.State2}
+        button.btn(class="btn btn-primary",onclick=destination) Update
+        button.btn(class="btn btn-success", onclick= detail) Details
+        button.btn(class="btn btn-danger", onclick= deleteItem) Delete
+          
   br
   div(class="container-fluid")
     div(class="row")

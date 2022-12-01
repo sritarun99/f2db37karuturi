@@ -5,6 +5,19 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport'); 
 var LocalStrategy = require('passport-local').Strategy; 
+passport.use(new LocalStrategy( 
+  function(username, password, done) { 
+    Account.findOne({ username: username }, function (err, user) { 
+      if (err) { return done(err); } 
+      if (!user) { 
+        return done(null, false, { message: 'Incorrect username.' }); 
+      } 
+      if (!user.validPassword(password)) { 
+        return done(null, false, { message: 'Incorrect password.' }); 
+      } 
+      return done(null, user); 
+    }); 
+  } ))
 require('dotenv').config(); 
 const connectionString =  
 process.env.MONGO_CON 
@@ -37,7 +50,6 @@ app.use(require('express-session')({
 })); 
 app.use(passport.initialize()); 
 app.use(passport.session()); 
- 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -46,20 +58,6 @@ app.use('/India', IndiaRouter);
 app.use('/selector', selectorRouter);
 app.use('/gridbuild', gridbuildRouter);
 app.use('/resource', resourceRouter);
-passport.use(new LocalStrategy( 
-  function(username, password, done) { 
-    Account.findOne({ username: username }, function (err, user) { 
-      if (err) { return done(err); } 
-      if (!user) { 
-        return done(null, false, { message: 'Incorrect username.' }); 
-      } 
-      if (!user.validPassword(password)) { 
-        return done(null, false, { message: 'Incorrect password.' }); 
-      } 
-      return done(null, user); 
-    }); 
-  } ))
-
 //Get the default connection 
 var db = mongoose.connection; 
  
